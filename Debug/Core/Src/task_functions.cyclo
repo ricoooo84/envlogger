@@ -1,0 +1,5 @@
+../Core/Src/task_functions.c:6:13:helper_bme_init	3
+../Core/Src/task_functions.c:21:13:helper_sd_init	2
+../Core/Src/task_functions.c:39:13:helper_sd_write	4
+../Core/Src/task_functions.c:63:6:task_read_sensor	3
+../Core/Src/task_functions.c:89:6:task_write_to_sd	3

@@ -1,0 +1,5 @@
+../FatFs/Src/diskio.c:7:9:disk_initialize	16	static
+../FatFs/Src/diskio.c:20:9:disk_status	16	static
+../FatFs/Src/diskio.c:30:9:disk_read	40	static
+../FatFs/Src/diskio.c:45:9:disk_write	40	static
+../FatFs/Src/diskio.c:60:9:disk_ioctl	16	static

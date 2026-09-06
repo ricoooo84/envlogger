@@ -1,0 +1,2 @@
+../Core/Src/i2c_driver.c:6:14:i2c_write_reg	32	static
+../Core/Src/i2c_driver.c:62:14:i2c_read_regs	40	static

@@ -1,0 +1,7 @@
+../Core/Src/spi_driver.c:8:6:spi_config	1
+../Core/Src/spi_driver.c:20:21:spi_transfer_byte	5
+../Core/Src/spi_driver.c:38:14:spi_write_byte	1
+../Core/Src/spi_driver.c:43:14:spi_read_byte	1
+../Core/Src/spi_driver.c:55:13:spi_dma_cfg_regs	1
+../Core/Src/spi_driver.c:75:6:spi_dma_transfer	2
+../Core/Src/spi_driver.c:90:6:spi_dma_rxcomplete_callback	2

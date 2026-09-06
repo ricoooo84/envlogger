@@ -1,0 +1,121 @@
+  -------------------------------------------------bme sanity:
+
+  /* USER CODE BEGIN 2 */
+  printf("-----start------\r\n");
+
+  if (bme280_config(&bme, hi2c1) != I2C_OK) {
+	  printf("config error\r\n");
+  } else {
+	  printf("init passed\r\n");
+  }
+  if (bme280_read_calib(&bme) != I2C_OK) {
+	  printf("calib error\r\n");
+  } else {
+	  printf("calib passed\r\n");
+  }
+
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+	  bme280_read(&bme);
+	  printf("Temperature: %f\r\n", bme.data.temp);
+	  printf("Humid: %f\r\n", bme.data.humid);
+	  printf("Pressure: %f\r\n", bme.data.pres);
+	  HAL_Delay(1000);
+
+
+    /* USER CODE BEGIN 3 */
+  }
+  
+  
+  
+  -------------------------------------------------spi sanity (hook miso to mosi)
+  
+    /* USER CODE BEGIN 2 */
+  spi_config(SPI1, SPI_BR_DIV128);
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+
+	  spi_write_byte(SPI1, 0xAB);
+	  HAL_Delay(1000);
+    /* USER CODE BEGIN 3 */
+  }
+  
+   ------------------------------------------------- spi dma test (hook miso to mosi)
+    /* USER CODE BEGIN 2 */
+  spi_config(SPI1, SPI_BR_DIV128);
+
+  uint8_t sen[10] = {0xDE, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0xAD};
+  uint8_t rec[10] = {0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0};
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+	  spi_dma_transfer(SPI1, DMA_TX, DMA_RX, rec, sen, 10);
+
+	  while (!dma_done);        // block until ISR actually signals completion
+	  if (dma_done == 1) {
+		  for (uint8_t i = 0; i < 10; i++) {
+		      printf("%02X ", rec[i]);
+		  }
+		  printf("\r\n");
+	  }
+
+    /* USER CODE BEGIN 3 */
+  }
+  
+  ------------------------------------------------- sd write with fatfs (read function untested but not used)
+  
+    /* USER CODE BEGIN 2 */
+
+  sd.spi = SPI1;
+  sd.type = SD_V2_HC;
+  sd.block_count = 125829120; // hardcoded for 64 GB
+
+
+
+ res = f_mount(&fs, "", 1);
+  if (res != FR_OK) {
+	  Error_Handler();
+  }
+
+  res = f_open(&file, "hello.txt", FA_OPEN_APPEND | FA_WRITE);
+  printf("open: %d\r\n",res);
+
+  char line[] = "yo gurt\r\nhi";
+  res = f_write(&file, line, strlen(line), &bw);
+  printf("write: %d\r\n",res);
+  printf("bw: %d\r\n", bw);
+
+  res = f_sync(&file);
+  printf("sync: %d\r\n",res);
+
+  f_close(&file);
+
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+
+
+    /* USER CODE BEGIN 3 */
+  }
